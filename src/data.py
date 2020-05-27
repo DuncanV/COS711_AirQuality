@@ -32,7 +32,7 @@ class Data:
         return print(self.data)
 
     def convertToNpArrCNN(self):
-        print(self.data)
+        # creates array of (?, 6, 121, 1)
         entireArr = []
         rowArr = []
         item = []
@@ -45,8 +45,18 @@ class Data:
         return self.CNNarray
 
     def convertToNpArrLSTM(self):
-        # TODO need to create array of (15539, 121, 6)
-        pass
+        # creates array of (?, 121, 6)
+        print(self.data)
+        entireArr = []
+        rowArr = []
+        item = []
+        for row in self.data.values:
+            rowArr = []
+            for attribute in row[2:8]:
+                rowArr.append([float(i) for i in attribute.replace("nan", "-100").split(',')])
+            entireArr.append(rowArr.copy())
+        self.LSTMarray = np.array(entireArr).transpose(0,2,1)
+        return self.LSTMarray
 
     def getLabels(self, target):
         pass

@@ -5,29 +5,29 @@ warnings.filterwarnings("ignore")
 import numpy as np
 # Classes
 from CNN import CNN
-from LSTM import LSTM
+from LSTM import LSTM_
 from data import Data
 
 def main():
     #Load the dataset
     dataset = Data(path='dataset/Train.csv')
-    testData = Data(path='dataset/Test.csv')
-
-    attributes = ['temp','precip','rel_humidity','wind_dir','wind_spd','atmos_press']
     temp = dataset.getDataframe()
-    # arrLabels = arrLabels['target'].values.astype(np.float32)
-    arrLabels = np.array([[float(i)] for i in temp['target'].values])
-    arrData = dataset.convertToNpArrCNN()
-    print(arrData.shape)
-    # print(arrLabels.shape)
-    print(arrLabels)
-    # print("==========================================")
-    # arrData = dataset.standardise()
-    # print(arrData.shape)
-
+    # TODO remove > 20% nans
+    # TODO avergae the rest of the nans
+    # TODO Split into testing a training sets.
+    # TODO create average and std function
+    # TODO create loops for splitting, training and testing
+    #CNN labels, training and testing
+    # arrLabelsCNN = np.array([[float(i)] for i in temp['target'].values])
+    # arrDataCNN = dataset.convertToNpArrCNN()
     # cnn = CNN(inputShape=(6,121,1))
     # cnn.train(trainInputs=arrData,trainOutputs=arrLabels,epoches=300,valSplit=0.15,batchSize=50)
 
+    #LSTM labels, training and testing
+    arrDataLSTM = dataset.convertToNpArrLSTM()
+    arrLabelsLSTM = np.array([[float(i)] for i in temp['target'].values])
+    lstm = LSTM_(inputShape=(121,6))
+    lstm.train(trainInputs=arrDataLSTM,trainOutputs=arrLabelsLSTM, epoches=300, valSplit=0.15, batchSize=50)
 
     return
 

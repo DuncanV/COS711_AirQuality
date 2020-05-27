@@ -1,7 +1,7 @@
 # imports
 import os
 from keras.callbacks import EarlyStopping, ModelCheckpoint
-
+import statistics
 
 class Network:
 
@@ -52,3 +52,10 @@ class Network:
             self.model.load_weights("weights/" + dataset + self.name + ".h5")
             print("[INFO] Weights loaded for " + self.name + " on " + dataset + " Dataset.")
             return True
+
+    def avgStd(str, arr):
+        print("\n", str)
+        print(arr)
+        print("Average: ", round(statistics.mean(arr), 6))
+        print("Standard Dev: ", round(statistics.stdev(arr), 6))
+        return

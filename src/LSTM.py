@@ -4,22 +4,23 @@ from keras.layers import LSTM, Dropout, Dense
 # inherit
 from Network import Network
 
-class LSTM(Network):
+class LSTM_(Network):
     def __init__(self, inputShape):
-        regressor = Sequential()
+        model = Sequential()
 
-        regressor.add(LSTM(units=50, return_sequences=True, input_shape=inputShape))
-        regressor.add(Dropout(0.2))
+        model.add(LSTM(units=50, return_sequences=True, input_shape=inputShape))
+        model.add(Dropout(0.2))
 
-        regressor.add(LSTM(units=50, return_sequences=True))
-        regressor.add(Dropout(0.2))
+        model.add(LSTM(units=50, return_sequences=True))
+        model.add(Dropout(0.2))
 
-        regressor.add(LSTM(units=50, return_sequences=True))
-        regressor.add(Dropout(0.2))
+        model.add(LSTM(units=50, return_sequences=True))
+        model.add(Dropout(0.2))
 
-        regressor.add(LSTM(units=50, activation='relu'))
-        regressor.add(Dropout(0.2))
+        model.add(LSTM(units=50))
+        model.add(Dropout(0.2))
 
-        regressor.add(Dense(units=1, activation='relu'))
-        super().__init__(_model=[], _name="LSTM")
+        model.add(Dense(units = 1, activation='relu'))
+
+        super().__init__(_model=model, _name="LSTM")
         return
