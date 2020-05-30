@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 
+
 class Data:
 
     def __init__(self, path=''):
@@ -31,32 +32,31 @@ class Data:
     def show(self):
         return print(self.data)
 
-    def convertToNpArrCNN(self):
+    def convertToNpArrCNN(self, data):
         # creates array of (?, 6, 121, 1)
         entireArr = []
         rowArr = []
         item = []
-        for row in self.data.values:
+        for row in data.values:
             rowArr = []
             for attribute in row[2:8]:
                 rowArr.append([[float(i)] for i in attribute.replace("nan", "-100").split(',')])
             entireArr.append(rowArr.copy())
-        self.CNNarray = np.array(entireArr)
-        return self.CNNarray
+        CNNarray = np.array(entireArr)
+        return CNNarray
 
-    def convertToNpArrLSTM(self):
+    def convertToNpArrLSTM(self, data):
         # creates array of (?, 121, 6)
-        print(self.data)
         entireArr = []
         rowArr = []
         item = []
-        for row in self.data.values:
+        for row in data.values:
             rowArr = []
             for attribute in row[2:8]:
                 rowArr.append([float(i) for i in attribute.replace("nan", "-100").split(',')])
             entireArr.append(rowArr.copy())
-        self.LSTMarray = np.array(entireArr).transpose(0,2,1)
-        return self.LSTMarray
+        LSTMarray = np.array(entireArr).transpose(0, 2, 1)
+        return LSTMarray
 
     def getLabels(self, target):
         pass
@@ -67,5 +67,5 @@ class Data:
     def getLSTMDataArr(self):
         return self.LSTMarray
 
-
-
+    def removeNans(self, AMOUNT=0.2):
+        pass

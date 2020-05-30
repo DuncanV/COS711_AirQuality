@@ -1,9 +1,10 @@
-#imports
+# imports
 from keras import Sequential
 from keras.layers import Conv2D, MaxPool2D, Flatten, Dense, MaxPooling2D, ZeroPadding2D, Input, Dropout
 
 # inherit
 from Network import Network
+
 
 class CNN(Network):
     def __init__(self, inputShape):

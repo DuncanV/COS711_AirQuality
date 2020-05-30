@@ -1,7 +1,10 @@
 # imports
 import os
+import math
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+import sklearn as sk
 import statistics
+
 
 class Network:
 
@@ -22,15 +25,19 @@ class Network:
             earlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=epoches // 10,
                                       verbose=0, mode='auto')
             bestModel = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss',
-                                                        save_best_only=True)
-        history = self.model.fit(trainInputs, trainOutputs, epochs=epoches, validation_split=valSplit, verbose=1, batch_size=batchSize,
+                                        save_best_only=True)
+        history = self.model.fit(trainInputs, trainOutputs, epochs=epoches, validation_split=valSplit, verbose=1,
+                                 batch_size=batchSize,
                                  callbacks=[earlyStop, bestModel])
         self.model.load_weights('best_model.h5')
         return
 
-    def test(self):
+    def test(self, data, labels):
         print('[INFO] Testing ' + self.name + ' on dataset')
-        pass
+        testpred = self.model.predict(data)
+        mse = sk.metrics.mean_squared_error(labels.flatten(), testpred.flatten())
+        rmse = math.sqrt(mse)
+        return rmse
 
     def getModel(self):
         if not self.compiled:
@@ -53,9 +60,8 @@ class Network:
             print("[INFO] Weights loaded for " + self.name + " on " + dataset + " Dataset.")
             return True
 
-    def avgStd(str, arr):
-        print("\n", str)
-        print(arr)
+    def avgStd(self, arr):
+        print('[RESULTS] Results for ' + self.name)
         print("Average: ", round(statistics.mean(arr), 6))
         print("Standard Dev: ", round(statistics.stdev(arr), 6))
         return
