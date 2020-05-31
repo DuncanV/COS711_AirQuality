@@ -16,18 +16,18 @@ def main():
     LOOP = 10
     # Load the dataset
     dataset = Data(path='dataset/Train.csv')
-    dataset.removeNans()
-    # TODO remove > 20% nans
-    # TODO avergae the rest of the nans
+    dataset.removeNans(AMOUNT=0.2, recreate=False)
+    print(dataset.getDataframe())
+    # dataset.standardize()
 
     for i in range(LOOP):
-        trainDataframe, testDataframe = model_selection.train_test_split(dataframe, test_size=0.2)
+        trainDataframe, testDataframe = model_selection.train_test_split(dataset.getDataframe(), test_size=SPLIT)
 
         # CNN labels, training and testing
-        # arrLabelsCNN = np.array([[float(i)] for i in temp['target'].values])
-        # arrDataCNN = dataset.convertToNpArrCNN()
-        # cnn = CNN(inputShape=(6,121,1))
-        # cnn.train(trainInputs=arrData,trainOutputs=arrLabels,epoches=300,valSplit=0.15,batchSize=50)
+        arrLabelsCNN = np.array([[float(i)] for i in trainDataframe['target'].values])
+        arrDataCNN = dataset.convertToNpArrCNN(trainDataframe)
+        cnn = CNN(inputShape=(6,121,1))
+        cnn.train(trainInputs=arrDataCNN,trainOutputs=arrLabelsCNN,epoches=300,valSplit=0.15,batchSize=50)
 
         # LSTM labels, training and testing
         # arrDataLSTM = dataset.convertToNpArrLSTM()

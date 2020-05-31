@@ -1,4 +1,6 @@
 # imports
+from progress.bar import Bar
+from statistics import mean
 import pandas as pd
 import numpy as np
 import os
@@ -40,7 +42,8 @@ class Data:
         for row in data.values:
             rowArr = []
             for attribute in row[2:8]:
-                rowArr.append([[float(i)] for i in attribute.replace("nan", "-100").split(',')])
+                # replace nan with 0 in case it was missed
+                rowArr.append([[float(i)] for i in attribute.replace("nan", "0.0").split(',')])
             entireArr.append(rowArr.copy())
         CNNarray = np.array(entireArr)
         return CNNarray
@@ -53,13 +56,11 @@ class Data:
         for row in data.values:
             rowArr = []
             for attribute in row[2:8]:
-                rowArr.append([float(i) for i in attribute.replace("nan", "-100").split(',')])
+                #replace nan with 0 in case it was missed
+                rowArr.append([float(i) for i in attribute.replace("nan", "0.0").split(',')])
             entireArr.append(rowArr.copy())
         LSTMarray = np.array(entireArr).transpose(0, 2, 1)
         return LSTMarray
-
-    def getLabels(self, target):
-        pass
 
     def getCNNDataArr(self):
         return self.CNNarray
@@ -67,5 +68,46 @@ class Data:
     def getLSTMDataArr(self):
         return self.LSTMarray
 
-    def removeNans(self, AMOUNT=0.2):
+    def removeNans(self, AMOUNT=0.2, recreate=False):
+        if os.path.exists('dataset/no_nan.csv') and recreate == False:
+            self.data = self.setDataPath('dataset/no_nan.csv')
+            return
+        print(self.data)
+
+        #remove nans
+        bar = Bar("[INFO] Removing NaN rows...", max=len(self.data.values))
+        for row in self.data.values:
+            bar.next()
+            remove = False
+            #count the number of NaNs in the attribute, if > 1-amount
+            for attribute in row[2:8]:
+                attr = attribute.split(',')
+                occurances = attr.count("nan")
+                if occurances/len(attr) > (1-AMOUNT):
+                    remove = True
+                    break
+            #remove the row or replace all nans with average
+            if remove == True:
+                self.data = self.data[self.data.ID != row[0]]
+
+        #Average the rest
+        print()
+        bar = Bar("[INFO] Averaging NaN rows...", max=len(self.data.values))
+        rows = len(self.data.values)
+        for row in range(rows):
+            bar.next()
+            for attribute in range(2, 8):
+                attr = self.data.values[row][attribute].split(',')
+                nums = []
+                for i in attr:
+                    if i != 'nan':
+                        nums.append(float(i))
+
+                a = self.data.values[row][attribute].replace("nan", str(mean(nums)))
+                self.data.iloc[row, attribute]=a
+
+        print()
+        self.data.to_csv('dataset/no_nan.csv', index=False)
+
+    def standardize(self):
         pass
