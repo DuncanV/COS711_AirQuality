@@ -17,17 +17,25 @@ def main():
     # Load the dataset
     dataset = Data(path='dataset/Train.csv')
     dataset.removeNans(AMOUNT=0.2, recreate=False)
-    print(dataset.getDataframe())
-    # dataset.standardize()
+    dataset.standardize(recreate=False)
 
-    for i in range(LOOP):
-        trainDataframe, testDataframe = model_selection.train_test_split(dataset.getDataframe(), test_size=SPLIT)
+    # for i in range(LOOP):
+    trainDataframe, testDataframe = model_selection.train_test_split(dataset.getDataframe(), test_size=SPLIT)
 
-        # CNN labels, training and testing
-        arrLabelsCNN = np.array([[float(i)] for i in trainDataframe['target'].values])
-        arrDataCNN = dataset.convertToNpArrCNN(trainDataframe)
-        cnn = CNN(inputShape=(6,121,1))
-        cnn.train(trainInputs=arrDataCNN,trainOutputs=arrLabelsCNN,epoches=300,valSplit=0.15,batchSize=50)
+    # CNN labels, training and testing
+    trainLabelsCNN = np.array([[float(i)] for i in trainDataframe['target'].values])
+    trainDataCNN = dataset.convertToNpArrCNN(trainDataframe)
+    cnn = CNN(inputShape=(6,121,1))
+
+    testDataCNN = dataset.convertToNpArrCNN(testDataframe)
+    testLabelsCNN = np.array([[float(i)] for i in testDataframe['target'].values])
+    print(cnn.test(data=testDataCNN, labels=testLabelsCNN))
+    
+    cnn.train(trainInputs=trainDataCNN,trainOutputs=trainLabelsCNN,epoches=300,valSplit=0.15,batchSize=50)
+
+    testDataCNN = dataset.convertToNpArrCNN(testDataframe)
+    testLabelsCNN = np.array([[float(i)] for i in testDataframe['target'].values])
+    print(cnn.test(data=testDataCNN, labels=testLabelsCNN))
 
         # LSTM labels, training and testing
         # arrDataLSTM = dataset.convertToNpArrLSTM()
