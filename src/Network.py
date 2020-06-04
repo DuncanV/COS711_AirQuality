@@ -2,6 +2,7 @@
 import os
 import math
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras import  optimizers
 import sklearn as sk
 import statistics
 
@@ -15,10 +16,15 @@ class Network:
         return
 
     def compile(self):
-        self.model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae'])
+        lr = 0.001
+        optimizer = optimizers.Adam(learning_rate=lr)
+        # optimizer = optimizers.Adadelta(learning_rate=lr)
+        # optimizer = optimizers.Adamax(learning_rate=lr)
+
+        self.model.compile(loss='mse', optimizer=optimizer, metrics=['mse', 'mae'])
         return
 
-    def train(self, trainInputs, trainOutputs, epoches, valSplit, batchSize):
+    def train(self, trainInputs, trainOutputs, valInputs, valOutputs, epoches, batchSize):
         print('[INFO] Training ' + self.name + ' on dataset')
         if not self.compiled:
             self.compile()
@@ -26,7 +32,7 @@ class Network:
                                       verbose=0, mode='auto')
             bestModel = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss',
                                         save_best_only=True)
-        history = self.model.fit(trainInputs, trainOutputs, epochs=epoches, validation_split=valSplit, verbose=1,
+        history = self.model.fit(trainInputs, trainOutputs, epochs=epoches, validation_data=(valInputs, valOutputs) , verbose=1,
                                  batch_size=batchSize,
                                  callbacks=[earlyStop, bestModel])
         self.model.load_weights('best_model.h5')

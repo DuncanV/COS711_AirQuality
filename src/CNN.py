@@ -21,10 +21,10 @@ class CNN(Network):
 
         model.add(Flatten())
 
-        model.add(Dense(140, activation='relu'))
+        model.add(Dense(120, activation='relu'))
         model.add(Dropout(0.2))
 
-        model.add(Dense(70, activation='relu'))
+        model.add(Dense(84, activation='relu'))
         model.add(Dropout(0.2))
 
         model.add(Dense(1, activation='relu'))

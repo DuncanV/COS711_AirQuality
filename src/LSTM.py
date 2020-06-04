@@ -12,13 +12,10 @@ class LSTM_(Network):
         model.add(LSTM(units=50, return_sequences=True, input_shape=inputShape))
         model.add(Dropout(0.2))
 
-        model.add(LSTM(units=50, return_sequences=True))
+        model.add(LSTM(units=25, return_sequences=True))
         model.add(Dropout(0.2))
 
-        model.add(LSTM(units=50, return_sequences=True))
-        model.add(Dropout(0.2))
-
-        model.add(LSTM(units=50))
+        model.add(LSTM(units=10))
         model.add(Dropout(0.2))
 
         model.add(Dense(units=1, activation='relu'))

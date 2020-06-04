@@ -69,9 +69,7 @@ class Data:
         return self.LSTMarray
 
     def removeNans(self, AMOUNT=0.2, recreate=False):
-        print(os.path.exists('dataset/Test.csv'))
         if os.path.exists('dataset/no_nan.csv') and recreate == False:
-            print("Loading")
             self.data = self.setDataPath('dataset/no_nan.csv')
             return
 
@@ -141,3 +139,4 @@ class Data:
         self.data.to_csv('dataset/standardise.csv', index=False)
 
         return
+
