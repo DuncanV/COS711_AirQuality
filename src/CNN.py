@@ -13,18 +13,18 @@ class CNN(Network):
         # pad so the kernal sizes will work
         model.add(ZeroPadding2D(padding=(5, 5), input_shape=inputShape))
 
-        model.add(Conv2D(filters=32, kernel_size=(5, 5), padding='same', activation='relu'))
+        model.add(Conv2D(filters=32, kernel_size=(5, 5), padding='same', activation=self.activation_func))
         model.add(MaxPool2D(strides=2))
 
-        model.add(Conv2D(filters=48, kernel_size=(5, 5), padding='valid', activation='relu'))
+        model.add(Conv2D(filters=48, kernel_size=(5, 5), padding='valid', activation=self.activation_func))
         model.add(MaxPool2D(strides=2))
 
         model.add(Flatten())
 
-        model.add(Dense(120, activation='relu'))
+        model.add(Dense(120, activation=self.activation_func))
         model.add(Dropout(0.2))
 
-        model.add(Dense(84, activation='relu'))
+        model.add(Dense(84, activation=self.activation_func))
         model.add(Dropout(0.2))
 
         model.add(Dense(1, activation='relu'))

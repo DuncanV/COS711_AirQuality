@@ -18,8 +18,6 @@ class Network:
     def compile(self):
         lr = 0.001
         optimizer = optimizers.Adam(learning_rate=lr)
-        # optimizer = optimizers.Adadelta(learning_rate=lr)
-        # optimizer = optimizers.Adamax(learning_rate=lr)
 
         self.model.compile(loss='mse', optimizer=optimizer, metrics=['mse', 'mae'])
         return
@@ -66,8 +64,9 @@ class Network:
             print("[INFO] Weights loaded for " + self.name + " on " + dataset + " Dataset.")
             return True
 
-    def avgStd(self, arr):
-        print('[RESULTS] Results for ' + self.name)
+    def avgStd(self, arr, s):
+        print('[RESULTS] Results for ' + s)
         print("Average: ", round(statistics.mean(arr), 6))
         print("Standard Dev: ", round(statistics.stdev(arr), 6))
+        print()
         return
