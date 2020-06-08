@@ -139,4 +139,3 @@ class Data:
         self.data.to_csv('dataset/standardise.csv', index=False)
 
         return
-

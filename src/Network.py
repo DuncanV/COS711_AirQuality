@@ -2,9 +2,11 @@
 import os
 import math
 from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras import  optimizers
+from keras import optimizers
 import sklearn as sk
+import pandas as pd
 import statistics
+import matplotlib.pyplot as plt
 
 
 class Network:
@@ -30,7 +32,8 @@ class Network:
                                       verbose=0, mode='auto')
             bestModel = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss',
                                         save_best_only=True)
-        history = self.model.fit(trainInputs, trainOutputs, epochs=epoches, validation_data=(valInputs, valOutputs) , verbose=1,
+        history = self.model.fit(trainInputs, trainOutputs, epochs=epoches, validation_data=(valInputs, valOutputs),
+                                 verbose=1,
                                  batch_size=batchSize,
                                  callbacks=[earlyStop, bestModel])
         self.model.load_weights('best_model.h5')
