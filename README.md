@@ -23,8 +23,18 @@ The program uses Keras from Tensorflow in order to do both the CNN as well as th
 +-- main.py
 +-- Network.py
 ```
-3. Run the program by typing in console 'python main.py'
-4. You may need to install modules, this can be done by typing 'pip instal ____' for example 'pip install numpy'
+3. Run the program by typing in console 
+```
+python main.py
+```
+4. You may need to install modules, this can be done by typing 
+```
+pip instal'____'
+```
+for example 
+```
+pip install numpy
+```
 ### General Info
 This repo is an assignment for the University of Pretoria South Africa at a honours level (COS 711). \
 Please feel free to email me if there's any questions, my email can be found on my profile.
