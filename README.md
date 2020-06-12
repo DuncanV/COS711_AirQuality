@@ -13,7 +13,7 @@ The program uses Keras from Tensorflow in order to do both the CNN as well as th
 ### Setup
 1. Clone the repo into the desired folder
 2. Create the folder structure as follows:
-'''
+```
 .
 +-- dataset
 |   +-- Train.csv
@@ -22,7 +22,7 @@ The program uses Keras from Tensorflow in order to do both the CNN as well as th
 +-- LSTM.py
 +-- main.py
 +-- Network.py
-'''
+```
 3. Run the program by typing in console 'python main.py'
 4. You may need to install modules, this can be done by typing 'pip instal ____' for example 'pip install numpy'
 ### General Info
