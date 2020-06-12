@@ -29,7 +29,7 @@ python main.py
 ```
 4. You may need to install modules, this can be done by typing 
 ```
-pip instal'____'
+pip install'____'
 ```
 for example 
 ```
